@@ -1,0 +1,229 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Diamond Ring",
+      "description": "Exquisite diamond ring with 18k gold band.",
+      "price": 999.99,
+      "image": "https://images.pexels.com/photos/17834/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "stock": 10,
+      "tier": "Diamond"
+    },
+    {
+      "id": 2,
+      "name": "Gold Necklace",
+      "description": "Elegant 24k gold necklace with intricate design.",
+      "price": 599.99,
+      "image": "https://images.pexels.com/photos/1670723/pexels-photo-1670723.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "stock": 15,
+      "tier": "Gold"
+    },
+    {
+      "id": 3,
+      "name": "Platinum Bracelet",
+      "description": "Luxurious platinum bracelet studded with diamonds.",
+      "price": 1499.99,
+      "image": "https://images.pexels.com/photos/4019555/pexels-photo-4019555.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 5,
+      "tier": "Platinum"
+    },
+    {
+      "id": 4,
+      "name": "Sapphire Earrings",
+      "description": "Stunning sapphire earrings in a vintage setting.",
+      "price": 899.99,
+      "image": "https://images.pexels.com/photos/168927/pexels-photo-168927.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "stock": 8,
+      "tier": "Diamond"
+    },
+    {
+      "id": 5,
+      "name": "Emerald Pendant",
+      "description": "Beautiful emerald pendant on a silver chain.",
+      "price": 699.99,
+      "image": "https://images.pexels.com/photos/145624/pexels-photo-145624.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 12,
+      "tier": "Diamond"
+    },
+    {
+      "id": 6,
+      "name": "Ruby Ring",
+      "description": "Classic ruby ring with a platinum band.",
+      "price": 1199.99,
+      "image": "https://images.pexels.com/photos/204427/pexels-photo-204427.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "stock": 6,
+      "tier": "Diamond"
+    },
+    {
+      "id": 7,
+      "name": "Pearl Necklace",
+      "description": "Timeless pearl necklace with a gold clasp.",
+      "price": 499.99,
+      "image": "https://images.pexels.com/photos/735252/pexels-photo-735252.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "stock": 20,
+      "tier": "Gold"
+    },
+    {
+      "id": 8,
+      "name": "Topaz Bracelet",
+      "description": "Elegant topaz bracelet with intricate silver design.",
+      "price": 799.99,
+      "image": "https://images.pexels.com/photos/3533427/pexels-photo-3533427.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 10,
+      "tier": "Platinum"
+    },
+    {
+      "id": 9,
+      "name": "Amethyst Earrings",
+      "description": "Gorgeous amethyst earrings in a simple yet elegant setting.",
+      "price": 399.99,
+      "image": "https://images.pexels.com/photos/2087245/pexels-photo-2087245.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 15,
+      "tier": "Gold"
+    },
+    {
+      "id": 10,
+      "name": "Opal Pendant",
+      "description": "Unique opal pendant with colorful play of light.",
+      "price": 899.99,
+      "image": "https://images.pexels.com/photos/1382282/pexels-photo-1382282.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 8,
+      "tier": "Platinum"
+    },
+    {
+      "id": 11,
+      "name": "Tanzanite Ring",
+      "description": "Exquisite tanzanite ring with a silver band.",
+      "price": 1299.99,
+      "image": "https://images.pexels.com/photos/4161606/pexels-photo-4161606.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 7,
+      "tier": "Diamond"
+    },
+    {
+      "id": 12,
+      "name": "Citrine Bracelet",
+      "description": "Stunning citrine bracelet with a gold clasp.",
+      "price": 699.99,
+      "image": "https://images.pexels.com/photos/3950267/pexels-photo-3950267.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 9,
+      "tier": "Gold"
+    },
+    {
+      "id": 13,
+      "name": "Peridot Earrings",
+      "description": "Elegant peridot earrings with a silver setting.",
+      "price": 499.99,
+      "image": "https://images.pexels.com/photos/3552607/pexels-photo-3552607.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 15,
+      "tier": "Gold"
+    },
+    {
+      "id": 14,
+      "name": "Aquamarine Necklace",
+      "description": "Aquamarine necklace with a delicate silver chain.",
+      "price": 899.99,
+      "image": "https://images.pexels.com/photos/271725/pexels-photo-271725.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 12,
+      "tier": "Platinum"
+    },
+    {
+      "id": 15,
+      "name": "Tourmaline Ring",
+      "description": "Unique tourmaline ring in a vintage gold setting.",
+      "price": 1099.99,
+      "image": "https://images.pexels.com/photos/3950280/pexels-photo-3950280.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 5,
+      "tier": "Diamond"
+    },
+    {
+      "id": 16,
+      "name": "Garnet Earrings",
+      "description": "Garnet earrings with a classic silver design.",
+      "price": 399.99,
+      "image": "https://images.pexels.com/photos/3577263/pexels-photo-3577263.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 18,
+      "tier": "Gold"
+    },
+    {
+      "id": 17,
+      "name": "Moonstone Pendant",
+      "description": "Elegant moonstone pendant with a silver chain.",
+      "price": 599.99,
+      "image": "https://images.pexels.com/photos/1456568/pexels-photo-1456568.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 10,
+      "tier": "Platinum"
+    },
+    {
+      "id": 18,
+      "name": "Alexandrite Bracelet",
+      "description": "Alexandrite bracelet with a gold clasp.",
+      "price": 1299.99,
+      "image": "https://images.pexels.com/photos/3950272/pexels-photo-3950272.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 6,
+      "tier": "Gold"
+    },
+    {
+      "id": 19,
+      "name": "Spinel Earrings",
+      "description": "Spinel earrings in a contemporary silver setting.",
+      "price": 599.99,
+      "image": "https://images.pexels.com/photos/1187055/pexels-photo-1187055.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 14,
+      "tier": "Platinum"
+    },
+    {
+      "id": 20,
+      "name": "Jade Pendant",
+      "description a": "Jade pendant with intricate carvings.",
+      "price": 799.99,
+      "image": "https://images.pexels.com/photos/2665691/pexels-photo-2665691.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 7,
+      "tier": "Diamond"
+    },
+    {
+      "id": 21,
+      "name": "Onyx Ring",
+      "description": "Onyx ring with a bold gold band.",
+      "price": 899.99,
+      "image": "https://images.pexels.com/photos/1988484/pexels-photo-1988484.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 9,
+      "tier": "Gold"
+    },
+    {
+      "id": 22,
+      "name": "Coral Necklace",
+      "description": "Coral necklace with a delicate silver chain.",
+      "price": 499.99,
+      "image": "https://images.pexels.com/photos/237137/pexels-photo-237137.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 16,
+      "tier": "Platinum"
+    },
+    {
+      "id": 23,
+      "name": "Turquoise Bracelet",
+      "description": "Turquoise bracelet with a vintage silver design.",
+      "price": 699.99,
+      "image": "https://images.pexels.com/photos/1391943/pexels-photo-1391943.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 11,
+      "tier": "Diamond"
+    },
+    {
+      "id": 24,
+      "name": "Agate Earrings",
+      "description": "Agate earrings in a minimalist silver setting.",
+      "price": 399.99,
+      "image": "https://images.pexels.com/photos/691046/pexels-photo-691046.jpeg",
+      "stock": 13,
+      "tier": "Gold"
+    },
+    {
+      "id": 25,
+      "name": "Lapis Lazuli Pendant",
+      "description": "Lapis lazuli pendant with a unique silver design.",
+      "price": 999.99,
+      "image": "https://images.pexels.com/photos/223599/pexels-photo-223599.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "stock": 8,
+      "tier": "Platinum"
+    }
+  ]
+}
