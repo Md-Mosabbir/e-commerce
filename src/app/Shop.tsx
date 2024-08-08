@@ -8,6 +8,10 @@ import PaginationComponent from "../components/FilteringAndSorting/PaginationCom
 import { useSearchParams } from "react-router-dom"
 import { useState } from "react"
 import { Skeleton } from "../components/ui/skeleton"
+import { useDebounce } from "../hooks/debouncer"
+
+const SEARCH_DELAY = 900
+const NUM_OF_PAGES = 10
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams({
@@ -20,6 +24,7 @@ const Shop = () => {
     sort: "",
     order: "",
   })
+
   const page = parseInt(searchParams.get("page") || "1", 10)
   const filter = {
     search: searchParams.get("search") || "",
@@ -33,18 +38,23 @@ const Shop = () => {
 
   const { search, tiers, inStock, minPrice, maxPrice, sort, order } = filter
 
-  const [limit, setLimit] = useState<number>(10)
+  const [limit, setLimit] = useState<number>(NUM_OF_PAGES)
+
+  const debouncedSearch = useDebounce(search, SEARCH_DELAY)
 
   const updatedParams = (params: string, value: string): void => {
-    setSearchParams((prev) => {
-      const newParams = new URLSearchParams(prev)
-      //Always set page to 1 when updating any other filter
-      if (params !== "page") {
-        newParams.set("page", "1")
-      }
-      newParams.set(params, value)
-      return newParams
-    })
+    setSearchParams(
+      (prev) => {
+        const newParams = new URLSearchParams(prev)
+        //Always set page to 1 when updating any other filter
+        if (params !== "page") {
+          newParams.set("page", "1")
+        }
+        newParams.set(params, value)
+        return newParams
+      },
+      { replace: true },
+    )
   }
 
   const deleteAllFilters = () => {
@@ -65,7 +75,7 @@ const Shop = () => {
   const params = {
     page,
     limit,
-    search,
+    search: debouncedSearch,
     tier: tiers.join(","),
     inStock,
     minPrice,
@@ -116,16 +126,6 @@ const Shop = () => {
     )
   }
 
-  if (data.products.length === 0) {
-    return (
-      <div className="text-center flex justify-center items-center h-screen font-montzerrat text-lg">
-        <h2 className="text-lg font-montzerrat font-medium -mt-72">
-          {data.message}
-        </h2>
-      </div>
-    )
-  }
-
   return (
     <>
       <PaginationComponent
@@ -139,18 +139,27 @@ const Shop = () => {
         deleteAllFilters={deleteAllFilters}
         filter={filter}
       />
-      <div className="grid grid-cols-2 gap-4 my-6">
-        {data.products.map((product: ShopCardTypes) => (
-          <ShopCards
-            key={product._id}
-            _id={product._id}
-            name={product.name}
-            price={product.price}
-            imageUrl={product.imageUrl}
-            alt={product.name}
-          />
-        ))}
-      </div>
+
+      {data.products.length === 0 ? (
+        <div className="text-center flex justify-center items-center h-screen font-montzerrat text-lg">
+          <h2 className="text-lg font-montzerrat font-medium -mt-72">
+            {data.message}
+          </h2>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-4 my-6">
+          {data.products.map((product: ShopCardTypes) => (
+            <ShopCards
+              key={product._id}
+              _id={product._id}
+              name={product.name}
+              price={product.price}
+              imageUrl={product.imageUrl}
+              alt={product.name}
+            />
+          ))}
+        </div>
+      )}
     </>
   )
 }

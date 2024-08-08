@@ -20,7 +20,7 @@ const ShopCards = ({ _id, name, price, imageUrl, alt }: ShopCardTypes) => {
       </Link>
       <div className="flex items-center  gap-3 justify-between">
         <p>${price}</p>
-        <AddingToCart />
+        <AddingToCart id={_id} />
       </div>
     </article>
   )
