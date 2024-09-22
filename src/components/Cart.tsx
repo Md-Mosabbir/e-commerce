@@ -18,6 +18,9 @@ import { Minus, Plus } from "lucide-react"
 import { toast } from "./ui/use-toast"
 import { useNavigate } from "react-router-dom"
 
+import { OrderItem } from "../types/OrderTypes"
+import { AxiosError } from "axios"
+
 type CartItemType = {
   _id: string
   name: string
@@ -49,58 +52,47 @@ export const CartItem = ({
         },
       )
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] })
+      toast({
+        title: "Item Removed",
+        description: "Item removed successfully",
+      })
+    },
+    onError: (error: AxiosError) => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description:
+          (error.response?.data as { message: string })?.message ||
+          "An error occurred",
+      })
+    },
   })
 
-  const updateItem = useMutation({
+  const addItem = useMutation({
     mutationFn: async (data: { productId: string; quantity: number }) => {
       await axiosInstance.post("/cart", data, {
         withCredentials: true,
       })
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] })
+      toast({
+        title: "Item Added",
+        description: "Item added successfully",
+      })
+    },
+    onError: (error: AxiosError) => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description:
+          (error.response?.data as { message: string })?.message ||
+          "An error occurred",
+      })
+    },
   })
-
-  function onAddItem(id: string, quantity: number) {
-    updateItem.mutate(
-      { productId: id, quantity },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["cart"] })
-          toast({
-            title: "Item Added",
-            description: "Item added successfully",
-          })
-        },
-        onError: (error) => {
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: error.response.data.message,
-          })
-        },
-      },
-    )
-  }
-
-  function onRemoveItem(id: string) {
-    removeItem.mutate(id, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["cart"] })
-        toast({
-          title: "Item Removed",
-          description: "Item removed successfully",
-        })
-      },
-      onError: (error) => {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.response.data.errors[0].message
-            ? error.response.data.errors[0].message
-            : "An error occured",
-        })
-      },
-    })
-  }
 
   return (
     <>
@@ -132,9 +124,9 @@ export const CartItem = ({
                     <div className="flex gap-2 items-center">
                       <Button
                         className="  rounded-full"
-                        onClick={() => {
-                          onAddItem(_id, 1)
-                        }}
+                        onClick={() =>
+                          addItem.mutate({ productId: _id, quantity: 1 })
+                        }
                         variant="outline"
                       >
                         <Plus size={15} />
@@ -143,11 +135,9 @@ export const CartItem = ({
                       <Button
                         className="  rounded-full"
                         onClick={() => {
-                          if (quantity === 1) {
-                            onRemoveItem(_id)
-                          } else {
-                            onAddItem(_id, -1)
-                          }
+                          quantity > 1
+                            ? addItem.mutate({ productId: _id, quantity: -1 })
+                            : removeItem.mutate(_id)
                         }}
                         variant="outline"
                       >
@@ -157,7 +147,9 @@ export const CartItem = ({
                   </div>
 
                   <div className="flex">
-                    <Button onClick={() => onRemoveItem(_id)}>Remove</Button>
+                    <Button onClick={() => removeItem.mutate(_id)}>
+                      Remove
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -170,25 +162,6 @@ export const CartItem = ({
 }
 
 export default function Cart() {
-  const { user } = useAuth()
-
-  const navigate = useNavigate()
-
-  const queryKey = ["cart"]
-
-  const query = useQuery({
-    queryKey,
-    queryFn: () => {
-      return axiosInstance.get("/cart", {
-        withCredentials: true,
-      })
-    },
-    retry: 4,
-    retryDelay: 3000,
-  })
-
-  const data = query.data?.data
-
   return (
     <Sheet>
       <SheetTrigger asChild className="font-montzerrat">
@@ -203,50 +176,90 @@ export default function Cart() {
             Make changes to your profile here. Click save when you're done.
           </SheetDescription>
         </SheetHeader>
-        <div className="grid grid-rows-2">
-          <div className="h-[80vh]">
-            {!user ? (
-              <div className="flex items-center gap-2 flex-col h-screen mt-64">
-                <p>Please Sign-in to check your cart</p>
-                <SheetClose asChild>
-                  <Link to={"/auth"}>
-                    <Button> Sign-In</Button>
-                  </Link>
-                </SheetClose>
-              </div>
-            ) : data === undefined ? (
-              <p className="text-center mt-64">An error occured</p>
-            ) : data.length === 0 ? (
-              <p className="text-center mt-64">Your cart is empty</p>
-            ) : (
-              data.map((item) => (
-                <CartItem
-                  key={item.productId._id}
-                  _id={item.productId._id}
-                  description={item.productId.description}
-                  name={item.productId.name}
-                  imageUrl={item.productId.imageUrl}
-                  tier={item.productId.tier}
-                  price={item.subtotal}
-                  quantity={item.quantity}
-                />
-              ))
-            )}
-          </div>
-          <div>
-            <div>
-              <SheetClose asChild>
-                <Button
-                  className="w-full"
-                  onClick={() => navigate("/checkout")}
-                >
-                  Checkout
-                </Button>
-              </SheetClose>
-            </div>
-          </div>
-        </div>
+        {/* Cart Items  */}
+        <CartContent />
       </SheetContent>
     </Sheet>
+  )
+}
+
+const CartContent = () => {
+  const { user } = useAuth()
+
+  const queryKey = ["cart"]
+
+  const query = useQuery({
+    queryKey,
+    queryFn: () => {
+      return axiosInstance.get("/cart", {
+        withCredentials: true,
+      })
+    },
+    retry: 4,
+    retryDelay: 3000,
+    enabled: user !== null,
+  })
+
+  const data = query.data?.data
+
+  const navigate = useNavigate()
+
+  if (query.isLoading) {
+    return <p>Loading...</p>
+  }
+
+  if (query.isError) {
+    return (
+      <p>
+        {(query.error instanceof AxiosError &&
+          query.error.response?.data.message) ||
+          "An error occurred"}
+      </p>
+    )
+  }
+
+  if (user === null) {
+    return (
+      <div className="flex items-center gap-2 flex-col h-screen mt-64">
+        <p>Please Sign-in to check your cart</p>
+        <SheetClose asChild>
+          <Link to={"/auth"}>
+            <Button> Sign-In</Button>
+          </Link>
+        </SheetClose>
+      </div>
+    )
+  }
+
+  return (
+    <div className="grid grid-rows-2">
+      <div className="h-[80vh]">
+        {data.map((item: OrderItem) => (
+          <CartItem
+            key={item.productId._id}
+            _id={item.productId._id}
+            description={item.productId.description}
+            name={item.productId.name}
+            imageUrl={item.productId.imageUrl}
+            tier={item.productId.tier}
+            price={item.subtotal}
+            quantity={item.quantity}
+          />
+        ))}
+      </div>
+      <div>
+        <div>
+          <SheetClose asChild>
+            <Button
+              className="w-full"
+              onClick={() => navigate("/checkout")}
+              disabled={data.length === 0 || query.isLoading || query.isError}
+            >
+              Checkout
+            </Button>
+          </SheetClose>
+        </div>
+      </div>
+    </div>
   )
 }
