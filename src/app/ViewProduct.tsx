@@ -1,21 +1,20 @@
 import { useParams } from "react-router-dom"
-import { useQueryClient, useQuery } from "@tanstack/react-query"
+
 import axiosInstance from "../utils/axiosInstance"
-import { Loader2, Minus, Plus } from "lucide-react"
+import { Minus, Plus } from "lucide-react"
 
 import { Button } from "../components/ui/button"
 import { useState } from "react"
 import AddingToCart from "../components/CardsElements/AddingToCart"
 import StarRating from "../components/StarRating"
 import { Product } from "../types/ProductType"
+import Loading from "../components/Loading"
+import { useQuery } from "@tanstack/react-query"
 
 const ViewProduct = () => {
   const [quantity, setQuantity] = useState(1)
 
   const params = useParams()
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const queryClient = useQueryClient()
 
   // Queries
   const query = useQuery({
@@ -24,11 +23,7 @@ const ViewProduct = () => {
   })
 
   if (query.isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen ">
-        <Loader2 size={64} className="animate-spin -mt-28" />
-      </div>
-    )
+    return <Loading />
   }
 
   if (query.isError) {

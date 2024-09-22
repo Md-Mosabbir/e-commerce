@@ -7,6 +7,7 @@ import { toast } from "../components/ui/use-toast"
 
 import { AxiosError } from "axios"
 import { OrderItem, OrderStatus } from "../types/OrderTypes"
+import Loading from "../components/Loading"
 
 const ViewOrder = () => {
   const params = useParams()
@@ -23,7 +24,7 @@ const ViewOrder = () => {
   })
 
   if (query.isLoading) {
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   const data = query.data

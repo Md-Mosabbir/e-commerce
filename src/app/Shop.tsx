@@ -5,88 +5,15 @@ import Filters from "../components/FilteringAndSorting/Filter"
 
 import { useQuery } from "@tanstack/react-query"
 import PaginationComponent from "../components/FilteringAndSorting/PaginationComponent"
-import { useSearchParams } from "react-router-dom"
-import { useState } from "react"
-import { Skeleton } from "../components/ui/skeleton"
-import { useDebounce } from "../hooks/debouncer"
-import { Product } from "../types/ProductType"
 
-const SEARCH_DELAY = 900
-const NUM_OF_PAGES = 10
+import { Skeleton } from "../components/ui/skeleton"
+
+import { Product } from "../types/ProductType"
+import useShopParams from "../hooks/useShopParams"
 
 const Shop = () => {
-  const [searchParams, setSearchParams] = useSearchParams({
-    page: "1",
-    search: "",
-    tiers: "",
-    inStock: "",
-    minPrice: "",
-    maxPrice: "",
-    sort: "",
-    order: "",
-  })
-
-  const page = parseInt(searchParams.get("page") || "1", 10)
-  const filter = {
-    search: searchParams.get("search") || "",
-    tiers: searchParams.get("tiers")?.split(",") || [],
-    inStock: searchParams.get("inStock") || "",
-    minPrice: searchParams.get("minPrice") || "",
-    maxPrice: searchParams.get("maxPrice") || "",
-    sort: searchParams.get("sort") || "createdAt",
-    order: searchParams.get("order") || "desc",
-  }
-
-  const { search, tiers, inStock, minPrice, maxPrice, sort, order } = filter
-
-  const [limit, setLimit] = useState<number>(NUM_OF_PAGES)
-
-  const debouncedSearch = useDebounce(search, SEARCH_DELAY)
-
-  const updatedParams = (params: string, value: string): void => {
-    setSearchParams(
-      (prev) => {
-        const newParams = new URLSearchParams(prev)
-        //Always set page to 1 when updating any other filter
-        if (params !== "page") {
-          newParams.set("page", "1")
-        }
-        newParams.set(params, value)
-        return newParams
-      },
-      { replace: true },
-    )
-  }
-
-  const deleteAllFilters = () => {
-    setSearchParams(
-      (prev) => {
-        const newParams = new URLSearchParams(prev)
-        newParams.delete("search")
-        newParams.delete("tiers")
-        newParams.delete("inStock")
-        newParams.delete("minPrice")
-        newParams.delete("maxPrice")
-        newParams.delete("sort")
-        newParams.delete("order")
-
-        return newParams
-      },
-      { replace: true },
-    )
-  }
-
-  const params = {
-    page,
-    limit,
-    search: debouncedSearch,
-    tier: tiers.join(","),
-    inStock,
-    minPrice,
-    maxPrice,
-    sort,
-    order,
-  }
+  const { params, updatedParams, deleteAllFilters, setLimit, filter, page } =
+    useShopParams()
 
   const queryKey = ["shop", params]
 
