@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query"
 import axiosInstance from "../utils/axiosInstance"
 import { Skeleton } from "../components/ui/skeleton"
 import ShopCards from "../components/CardsElements/ShopCards"
-import { ShopCardTypes } from "../types/ShopCardTypes"
+import { Product } from "../types/ProductType"
 
 const Home = () => {
   const queryKey = ["products"]
@@ -46,7 +46,7 @@ const Home = () => {
         </div>
       ) : (
         <div className="my-4 grid grid-cols-2 gap-4">
-          {query.data?.data.map((product: ShopCardTypes) => (
+          {query.data?.data.map((product: Product) => (
             <ShopCards
               key={product._id}
               _id={product._id}
