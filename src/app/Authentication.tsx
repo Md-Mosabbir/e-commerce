@@ -27,7 +27,6 @@ export default function Authentication() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            {/* <SignUp /> */}
             <SignUp />
           </CardContent>
         </Card>
@@ -43,7 +42,6 @@ export default function Authentication() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            {/* <SignIn /> */}
             <SignIn />
           </CardContent>
         </Card>

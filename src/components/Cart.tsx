@@ -16,6 +16,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import axiosInstance from "../utils/axiosInstance"
 import { Minus, Plus } from "lucide-react"
 import { toast } from "./ui/use-toast"
+import { useNavigate } from "react-router-dom"
 
 type CartItemType = {
   _id: string
@@ -27,7 +28,7 @@ type CartItemType = {
   quantity: number
 }
 
-const CartItem = ({
+export const CartItem = ({
   _id,
   name,
   description,
@@ -171,6 +172,8 @@ const CartItem = ({
 export default function Cart() {
   const { user } = useAuth()
 
+  const navigate = useNavigate()
+
   const queryKey = ["cart"]
 
   const query = useQuery({
@@ -200,31 +203,49 @@ export default function Cart() {
             Make changes to your profile here. Click save when you're done.
           </SheetDescription>
         </SheetHeader>
-        {data === undefined ? (
-          <p className="text-center mt-64">Your cart is empty</p>
-        ) : !user ? (
-          <div className="flex items-center gap-2 flex-col h-screen mt-64">
-            <p>Please Sign-in to check your cart</p>
-            <SheetClose asChild>
-              <Link to={"/auth"}>
-                <Button> Sign-In</Button>
-              </Link>
-            </SheetClose>
+        <div className="grid grid-rows-2">
+          <div className="h-[80vh]">
+            {!user ? (
+              <div className="flex items-center gap-2 flex-col h-screen mt-64">
+                <p>Please Sign-in to check your cart</p>
+                <SheetClose asChild>
+                  <Link to={"/auth"}>
+                    <Button> Sign-In</Button>
+                  </Link>
+                </SheetClose>
+              </div>
+            ) : data === undefined ? (
+              <p className="text-center mt-64">An error occured</p>
+            ) : data.length === 0 ? (
+              <p className="text-center mt-64">Your cart is empty</p>
+            ) : (
+              data.map((item) => (
+                <CartItem
+                  key={item.productId._id}
+                  _id={item.productId._id}
+                  description={item.productId.description}
+                  name={item.productId.name}
+                  imageUrl={item.productId.imageUrl}
+                  tier={item.productId.tier}
+                  price={item.subtotal}
+                  quantity={item.quantity}
+                />
+              ))
+            )}
           </div>
-        ) : (
-          data.map((item) => (
-            <CartItem
-              key={item.productId._id}
-              _id={item.productId._id}
-              description={item.productId.description}
-              name={item.productId.name}
-              imageUrl={item.productId.imageUrl}
-              tier={item.productId.tier}
-              price={item.subtotal}
-              quantity={item.quantity}
-            />
-          ))
-        )}
+          <div>
+            <div>
+              <SheetClose asChild>
+                <Button
+                  className="w-full"
+                  onClick={() => navigate("/checkout")}
+                >
+                  Checkout
+                </Button>
+              </SheetClose>
+            </div>
+          </div>
+        </div>
       </SheetContent>
     </Sheet>
   )

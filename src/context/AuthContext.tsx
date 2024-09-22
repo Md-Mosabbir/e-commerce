@@ -14,6 +14,8 @@ type AuthContextType = {
   signUp: (data: z.infer<typeof signUpSchema>) => Promise<void>
 
   signOut: () => Promise<void>
+
+  getUser: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -51,14 +53,24 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     navigate("/auth")
   }
 
+  const getUser = async () => {
+    const response = await axiosInstance.get("/users/profile", {
+      withCredentials: true,
+    })
+
+    setUser(response.data)
+
+    return response.data
+  }
+
   const signOut = async () => {
-    await axiosInstance.post("/users/sign-out")
+    await axiosInstance.post("/users/logout")
     setUser(null)
     navigate("/")
   }
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, signIn, signUp, signOut, getUser }}>
       {children}
     </AuthContext.Provider>
   )

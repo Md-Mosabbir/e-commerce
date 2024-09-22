@@ -19,7 +19,8 @@ import {
 } from "../components/ui/input-otp"
 import { useMutation } from "@tanstack/react-query"
 import axiosInstance from "../utils/axiosInstance"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
+import { toast } from "../components/ui/use-toast"
 
 const FormSchema = z.object({
   code: z.string().min(6, {
@@ -29,6 +30,7 @@ const FormSchema = z.object({
 
 export default function VerifyUser() {
   const params = useParams()
+  const navigate = useNavigate()
 
   const username = params.username
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -52,10 +54,16 @@ export default function VerifyUser() {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     formMutaton.mutate(data, {
       onSuccess: () => {
-        console.log("User verified")
+        navigate("/auth")
       },
       onError: (error) => {
-        console.error(error)
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: error.response.data.errors[0].message
+            ? error.response.data.errors[0].message
+            : "An error occurred",
+        })
       },
     })
   }

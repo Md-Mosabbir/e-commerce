@@ -12,8 +12,10 @@ import { Link } from "react-router-dom"
 import { MenuSquare } from "lucide-react"
 import { Avatar, AvatarImage } from "../ui/avatar"
 import { AvatarFallback } from "@radix-ui/react-avatar"
+import { useAuth } from "../../context/AuthContext"
 
 export const SideMenu = () => {
+  const { user } = useAuth()
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -27,18 +29,15 @@ export const SideMenu = () => {
       >
         <SheetHeader>
           <SheetTitle className=" text-background">
-            <Avatar className="border-2 w-16 h-16">
+            <Link to="/profile">
               <SheetClose asChild>
-                <Link to="/profile">
+                <Avatar className="border-2 w-16 h-16">
                   {/* TODO: Replace with your own avatar*/}
-                  <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    loading="lazy"
-                  />
+                  <AvatarImage src={user?.profilePicture} loading="lazy" />
                   <AvatarFallback></AvatarFallback>
-                </Link>
+                </Avatar>
               </SheetClose>
-            </Avatar>
+            </Link>
           </SheetTitle>
           <SheetDescription className="text-left font-montzerrat text-background text-base">
             Click to visit your profile

@@ -9,8 +9,21 @@ import VerifyUser from "./app/VerifyUser"
 import ProtectedRoutes from "./components/ProtectedRoutes"
 import Profile from "./app/Profile"
 import { Toaster } from "./components/ui/toaster"
+import { useQuery } from "@tanstack/react-query"
+import { useAuth } from "./context/AuthContext"
+import Checkout from "./app/Checkout"
+import ViewOrder from "./app/ViewOrder"
 
 export default function App() {
+  const { getUser } = useAuth()
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const query = useQuery({
+    queryKey: ["users", "profile"],
+    queryFn: getUser,
+    retry: 2,
+  })
+
   return (
     <>
       <Toaster />
@@ -23,10 +36,26 @@ export default function App() {
 
           <Route path="/:username/verify" element={<VerifyUser />} />
           <Route
+            path="/checkout"
+            element={
+              <ProtectedRoutes>
+                <Checkout />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
             path="/profile"
             element={
               <ProtectedRoutes>
                 <Profile />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/order/:id"
+            element={
+              <ProtectedRoutes>
+                <ViewOrder />
               </ProtectedRoutes>
             }
           />

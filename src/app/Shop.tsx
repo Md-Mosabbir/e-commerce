@@ -1,6 +1,6 @@
 import axiosInstance from "../utils/axiosInstance"
 import ShopCards from "../components/CardsElements/ShopCards"
-import { ShopCardTypes } from "../types/ShopCardTypes"
+
 import Filters from "../components/FilteringAndSorting/Filter"
 
 import { useQuery } from "@tanstack/react-query"
@@ -9,6 +9,7 @@ import { useSearchParams } from "react-router-dom"
 import { useState } from "react"
 import { Skeleton } from "../components/ui/skeleton"
 import { useDebounce } from "../hooks/debouncer"
+import { Product } from "../types/ProductType"
 
 const SEARCH_DELAY = 900
 const NUM_OF_PAGES = 10
@@ -58,18 +59,21 @@ const Shop = () => {
   }
 
   const deleteAllFilters = () => {
-    setSearchParams((prev) => {
-      const newParams = new URLSearchParams(prev)
-      newParams.delete("search")
-      newParams.delete("tiers")
-      newParams.delete("inStock")
-      newParams.delete("minPrice")
-      newParams.delete("maxPrice")
-      newParams.delete("sort")
-      newParams.delete("order")
+    setSearchParams(
+      (prev) => {
+        const newParams = new URLSearchParams(prev)
+        newParams.delete("search")
+        newParams.delete("tiers")
+        newParams.delete("inStock")
+        newParams.delete("minPrice")
+        newParams.delete("maxPrice")
+        newParams.delete("sort")
+        newParams.delete("order")
 
-      return newParams
-    })
+        return newParams
+      },
+      { replace: true },
+    )
   }
 
   const params = {
@@ -139,7 +143,6 @@ const Shop = () => {
         deleteAllFilters={deleteAllFilters}
         filter={filter}
       />
-
       {data.products.length === 0 ? (
         <div className="text-center flex justify-center items-center h-screen font-montzerrat text-lg">
           <h2 className="text-lg font-montzerrat font-medium -mt-72">
@@ -148,7 +151,7 @@ const Shop = () => {
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4 my-6">
-          {data.products.map((product: ShopCardTypes) => (
+          {data.products.map((product: Product) => (
             <ShopCards
               key={product._id}
               _id={product._id}
