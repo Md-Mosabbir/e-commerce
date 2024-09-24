@@ -21,6 +21,7 @@ import { useAuth } from "../../context/AuthContext"
 import { signUpSchema } from "../../types/signUpSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "../ui/use-toast"
+import { AxiosError } from "axios"
 const SignUp = () => {
   const auth = useAuth()
 
@@ -37,37 +38,60 @@ const SignUp = () => {
   const signUpMutation = useMutation({
     mutationFn: async (data: z.infer<typeof signUpSchema>) => {
       await auth.signUp(data)
+      return data
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Sign-up",
+        description: "User signed up successfully",
+      })
+
+      //redirect to /verify/:username
+      navigation(`/${data.username}/verify/`)
+    },
+
+    onError: (error: AxiosError) => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description:
+          (
+            error.response?.data as {
+              errors: {
+                message: string
+              }[]
+            }
+          )?.errors?.[0]?.message || "An error occurred",
+      })
     },
   })
-
-  function onSignUpSubmit(data: z.infer<typeof signUpSchema>) {
-    signUpMutation.mutate(data, {
-      onSuccess: () => {
-        toast({
-          title: "Sign-up",
-          description: "User signed up successfully",
-        })
-
-        //redirect to /verify/:username
-        navigation(`/verify/${data.username}`)
-      },
-      onError: (error) => {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.message,
-        })
-      },
-    })
-  }
 
   return (
     <>
       <Form {...signUpForm}>
         <form
-          onSubmit={signUpForm.handleSubmit(onSignUpSubmit)}
+          onSubmit={signUpForm.handleSubmit((data) =>
+            signUpMutation.mutate(data),
+          )}
           className="space-y-8"
         >
+          <FormField
+            control={signUpForm.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Profile picture</FormLabel>
+                <FormControl>
+                  <Input
+                    type="file"
+                    onChange={(e) => field.onChange(e.target.files?.[0])}
+                  />
+                </FormControl>
+                <FormDescription>This is your profile picture.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={signUpForm.control}
             name="username"

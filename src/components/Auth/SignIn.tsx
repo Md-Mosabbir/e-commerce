@@ -19,6 +19,7 @@ import { Loader2 } from "lucide-react"
 import { signInSchema } from "../../types/signInSchema"
 import { useAuth } from "../../context/AuthContext"
 import { toast } from "../ui/use-toast"
+import { AxiosError } from "axios"
 
 const SignIn = () => {
   const { signIn } = useAuth()
@@ -35,31 +36,35 @@ const SignIn = () => {
     mutationFn: async (data: z.infer<typeof signInSchema>) => {
       await signIn(data)
     },
+    onSuccess: () => {
+      toast({
+        tilte: "Sign-in",
+        description: "User signed in successfully",
+      })
+    },
+    onError: (error: AxiosError) => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description:
+          (
+            error.response?.data as {
+              errors: {
+                message: string
+              }[]
+            }
+          )?.errors?.[0]?.message || "An error occurred",
+      })
+    },
   })
-
-  function onSignInSubmit(data: z.infer<typeof signInSchema>) {
-    signInMutation.mutate(data, {
-      onSuccess: () => {
-        toast({
-          tilte: "Sign-in",
-          description: "User signed in successfully",
-        })
-      },
-      onError: (error) => {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.response.data.errors[0].message,
-        })
-      },
-    })
-  }
 
   return (
     <>
       <Form {...signInForm}>
         <form
-          onSubmit={signInForm.handleSubmit(onSignInSubmit)}
+          onSubmit={signInForm.handleSubmit((data) =>
+            signInMutation.mutate(data),
+          )}
           className="space-y-8"
         >
           <FormField

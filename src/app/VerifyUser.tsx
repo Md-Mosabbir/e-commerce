@@ -21,6 +21,7 @@ import { useMutation } from "@tanstack/react-query"
 import axiosInstance from "../utils/axiosInstance"
 import { useNavigate, useParams } from "react-router-dom"
 import { toast } from "../components/ui/use-toast"
+import { AxiosError } from "axios"
 
 const FormSchema = z.object({
   code: z.string().min(6, {
@@ -43,34 +44,39 @@ export default function VerifyUser() {
   const formMutaton = useMutation({
     mutationFn: async (data: z.infer<typeof FormSchema>) => {
       const response = await axiosInstance.post(
-        `/users/${username}/verify`,
+        `/users/verify/${username}`,
         data,
       )
 
       return response.data
     },
+    onSuccess: () => {
+      navigate("/auth")
+    },
+    onError: (error: AxiosError) => {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description:
+          (
+            error.response?.data as {
+              errors: {
+                message: string
+              }[]
+            }
+          )?.errors?.[0]?.message || "An error occurred",
+      })
+    },
   })
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    formMutaton.mutate(data, {
-      onSuccess: () => {
-        navigate("/auth")
-      },
-      onError: (error) => {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.response.data.errors[0].message
-            ? error.response.data.errors[0].message
-            : "An error occurred",
-        })
-      },
-    })
-  }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form
+        onSubmit={form.handleSubmit((data) => {
+          formMutaton.mutate(data)
+        })}
+        className="w-2/3 space-y-6"
+      >
         <FormField
           control={form.control}
           name="code"

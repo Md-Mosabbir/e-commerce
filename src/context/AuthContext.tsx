@@ -46,6 +46,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signUp = async (data: z.infer<typeof signUpSchema>) => {
     const response = await axiosInstance.post("/users/sign-up", data, {
       withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     })
 
     setUser(response.data)
