@@ -7,57 +7,15 @@ import Check from "../assets/jpg/check.jpg"
 import pendant from "../assets/jpg/pendant.jpg"
 import ring from "../assets/jpg/rings.jpg"
 import Footer from "../components/Footer"
-import { useQuery } from "@tanstack/react-query"
-import axiosInstance from "../utils/axiosInstance"
-import { Skeleton } from "../components/ui/skeleton"
-import ShopCards from "../components/CardsElements/ShopCards"
-import { Product } from "../types/ProductType"
+
+import FeaturedBlock from "../components/FeaturedBlock"
 
 const Home = () => {
-  const queryKey = ["products"]
-
-  const query = useQuery({
-    queryKey,
-    queryFn: async () => {
-      const response = await axiosInstance.get("/shop/featured")
-      return response
-    },
-    retry: 5,
-  })
-
   return (
     <>
       <Slider />
-      <div className="w-full border-b text-center font-cinzel text-lg">
-        <h2>Featured Product</h2>
-      </div>
 
-      {query.isLoading ? (
-        <div className="my-4 grid grid-cols-2 gap-4">
-          {Array.from({ length: 3 }).map((_, index) => (
-            <article className="flex flex-col  space-y-3 " key={index}>
-              <Skeleton className="h-[125px]  rounded-xl" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 " />
-                <Skeleton className="h-4 w-1/2" />
-              </div>
-            </article>
-          ))}
-        </div>
-      ) : (
-        <div className="my-4 grid grid-cols-2 gap-4">
-          {query.data?.data.map((product: Product) => (
-            <ShopCards
-              key={product._id}
-              _id={product._id}
-              name={product.name}
-              price={product.price}
-              imageUrl={product.imageUrl}
-              alt={product.name}
-            />
-          ))}
-        </div>
-      )}
+      <FeaturedBlock />
 
       <article className="w-full my-5 h-60 overflow-clip   relative rounded-t-3xl rounded-bl-3xl">
         <div className="relative">
