@@ -12,8 +12,27 @@ import { Product } from "../types/ProductType"
 import useShopParams from "../hooks/useShopParams"
 
 const Shop = () => {
+  const paramsArgs = {
+    tiers: "",
+    inStock: "",
+    minPrice: "",
+    maxPrice: "",
+  }
+
+  const filterArgs = {
+    // tiers: searchParams.get("tiers")?.split(",") || [],
+    // inStock: searchParams.get("inStock") || "",
+    // minPrice: searchParams.get("minPrice") || "",
+    // maxPrice: searchParams.get("maxPrice") || "",
+
+    tiers: [],
+    inStock: "",
+    minPrice: "",
+    maxPrice: "",
+  }
+
   const { params, updatedParams, deleteAllFilters, setLimit, filter, page } =
-    useShopParams()
+    useShopParams(paramsArgs, filterArgs)
 
   const queryKey = ["shop", params]
 
