@@ -8,6 +8,8 @@ import { Badge, BadgeCheck } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import OrderInfo from "../components/OrderInfo"
 import { ScrollArea } from "../components/ui/scroll-area"
+import PaginationComponent from "../components/FilteringAndSorting/PaginationComponent"
+import useShopParams from "../hooks/useShopParams"
 
 const ProfileSection = () => {
   const { getUser, signOut } = useAuth()
@@ -65,10 +67,20 @@ const ProfileSection = () => {
 }
 
 const OrderSection = () => {
+  const paramsArgs = {
+    type: "",
+  }
+  const filterArgs = {
+    type: [],
+  }
+  const { params, updatedParams, deleteAllFilters, setLimit, filter, page } =
+    useShopParams(paramsArgs, filterArgs)
+
   const orders = useQuery({
-    queryKey: ["users", "orders"],
+    queryKey: ["users", "orders", params],
     queryFn: async () => {
       const { data } = await axiosInstance.get("/users/orders", {
+        params,
         withCredentials: true,
       })
 
@@ -82,7 +94,7 @@ const OrderSection = () => {
     return <p>Loading...</p>
   }
 
-  // const ordersData = orders.data
+  const ordersData = orders.data
   const orderItems = orders.data.orders
 
   return (
@@ -101,6 +113,12 @@ const OrderSection = () => {
           {/* <ScrollArea className="p-4 border border-gray-300 rounded-lg"> */}{" "}
           {/* You can adjust the height */}
           <div>
+            <PaginationComponent
+              currentPage={page}
+              totalPages={ordersData.totalPages}
+              setLimits={setLimit}
+              updateParams={updatedParams}
+            />
             {orderItems?.length === 0 ? (
               <div className="flex justify-center items-center h-52">
                 <p className="text-2xl font-medium">No Orders Yet</p>
