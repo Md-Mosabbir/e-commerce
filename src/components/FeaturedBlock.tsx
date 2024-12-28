@@ -55,7 +55,6 @@ const FeaturedBlock = () => {
                     name={product.name}
                     price={product.price}
                     imageUrl={product.imageUrl}
-                    alt={product.name}
                   />
                 </CarouselItem>
               ))}

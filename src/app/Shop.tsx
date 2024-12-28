@@ -10,6 +10,7 @@ import { Skeleton } from "../components/ui/skeleton"
 
 import { Product } from "../types/ProductType"
 import useShopParams from "../hooks/useShopParams"
+import ShopFilter from "../components/FilteringAndSorting/ShopFilter"
 
 const Shop = () => {
   const paramsArgs = {
@@ -85,9 +86,8 @@ const Shop = () => {
         updateParams={updatedParams}
       />
       <Filters
-        updateParams={updatedParams}
         deleteAllFilters={deleteAllFilters}
-        filter={filter}
+        children={<ShopFilter updateParams={updatedParams} filter={filter} />}
       />
       {data.products.length === 0 ? (
         <div className="text-center flex justify-center items-center h-screen font-montzerrat text-lg">
@@ -104,7 +104,6 @@ const Shop = () => {
               name={product.name}
               price={product.price}
               imageUrl={product.imageUrl}
-              alt={product.name}
             />
           ))}
         </div>

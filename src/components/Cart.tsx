@@ -18,26 +18,14 @@ import { Minus, Plus } from "lucide-react"
 import { toast } from "./ui/use-toast"
 import { useNavigate } from "react-router-dom"
 
-import { OrderItem } from "../types/OrderTypes"
 import { AxiosError } from "axios"
-
-type CartItemType = {
-  _id: string
-  name: string
-  description: string
-  imageUrl: string
-  price: number
-  tier: string
-  quantity: number
-}
+import { CartItemType } from "../types/ProductType"
 
 export const CartItem = ({
   _id,
-  name,
-  description,
-  imageUrl,
-  price,
-  tier,
+  product,
+  subtotal,
+
   quantity,
 }: CartItemType) => {
   const queryClient = useQueryClient()
@@ -102,8 +90,8 @@ export const CartItem = ({
             <li className="flex py-6" id={_id}>
               <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                 <img
-                  src={imageUrl}
-                  alt={description}
+                  src={product.imageUrl}
+                  alt={product.name}
                   className="h-full w-full object-cover object-center"
                 />
               </div>
@@ -112,11 +100,11 @@ export const CartItem = ({
                 <div>
                   <div className="flex justify-between text-base font-medium text-gray-900">
                     <h3>
-                      <Link to={`/shop/${_id}`}>{name}</Link>
+                      <Link to={`/shop/${product._id}`}>{product.name}</Link>
                     </h3>
-                    <p className="ml-4">${price}</p>
+                    <p className="ml-4">${subtotal}</p>
                   </div>
-                  <p className="mt-1 text-sm text-gray-500">{tier}</p>
+                  <p className="mt-1 text-sm text-gray-500">{product.tier}</p>
                 </div>
                 <div className="flex flex-1 items-end justify-between text-sm mt-2">
                   <div>
@@ -125,7 +113,10 @@ export const CartItem = ({
                       <Button
                         className="  rounded-full"
                         onClick={() =>
-                          addItem.mutate({ productId: _id, quantity: 1 })
+                          addItem.mutate({
+                            productId: product._id,
+                            quantity: 1,
+                          })
                         }
                         variant="outline"
                       >
@@ -136,8 +127,11 @@ export const CartItem = ({
                         className="  rounded-full"
                         onClick={() => {
                           quantity > 1
-                            ? addItem.mutate({ productId: _id, quantity: -1 })
-                            : removeItem.mutate(_id)
+                            ? addItem.mutate({
+                                productId: product._id,
+                                quantity: -1,
+                              })
+                            : removeItem.mutate(product._id)
                         }}
                         variant="outline"
                       >
@@ -147,7 +141,7 @@ export const CartItem = ({
                   </div>
 
                   <div className="flex">
-                    <Button onClick={() => removeItem.mutate(_id)}>
+                    <Button onClick={() => removeItem.mutate(product._id)}>
                       Remove
                     </Button>
                   </div>
@@ -230,20 +224,22 @@ const CartContent = () => {
       </div>
     )
   }
+  // console.log(data)
 
   return (
     <div className="grid grid-rows-2">
       <div className="h-[80vh]">
-        {data.map((item: OrderItem) => (
+        {data.map((item: CartItemType) => (
           <CartItem
-            key={item.productId._id}
-            _id={item.productId._id}
-            description={item.productId.description}
-            name={item.productId.name}
-            imageUrl={item.productId.imageUrl}
-            tier={item.productId.tier}
-            price={item.subtotal}
+            key={item.product._id}
+            _id={item._id}
+            product={item.product}
+            subtotal={item.subtotal}
             quantity={item.quantity}
+            name={item.product.name}
+            imageUrl={item.product.imageUrl}
+            description={item.product.description}
+            tier={item.product.tier}
           />
         ))}
       </div>

@@ -1,8 +1,7 @@
 import clsx from "clsx"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import axiosInstance from "../utils/axiosInstance"
-import { toast } from "./ui/use-toast"
-
+import axiosInstance from "../../utils/axiosInstance"
+import { toast } from "../ui/use-toast"
 const StarRating = ({ id }: { id: string }) => {
   const queryClient = useQueryClient()
 

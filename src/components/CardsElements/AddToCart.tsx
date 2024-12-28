@@ -4,13 +4,7 @@ import { Loader2 } from "lucide-react"
 import { Button } from "../ui/button"
 import { toast } from "../ui/use-toast"
 
-const AddingToCart = ({
-  quantity = 1,
-  id,
-}: {
-  quantity?: number
-  id: string
-}) => {
+const AddToCart = ({ quantity = 1, id }: { quantity?: number; id: string }) => {
   const queryClient = useQueryClient()
 
   const addtoCartMutation = useMutation({
@@ -66,4 +60,4 @@ const AddingToCart = ({
   )
 }
 
-export default AddingToCart
+export default AddToCart

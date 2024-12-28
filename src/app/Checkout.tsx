@@ -28,7 +28,8 @@ import {
 import { toast } from "../components/ui/use-toast"
 import { useNavigate } from "react-router-dom"
 import { AxiosError } from "axios"
-import { OrderItem } from "../types/OrderTypes"
+
+import { CartItemType } from "../types/ProductType"
 
 const formSchema = z.object({
   postalCode: z.string({
@@ -103,16 +104,17 @@ const Checkout = () => {
             {query.isLoading ? (
               <div>Loading...</div>
             ) : (
-              data.map((item: OrderItem) => (
+              data.map((item: CartItemType) => (
                 <CartItem
-                  key={item.productId._id}
-                  _id={item.productId._id}
-                  description={item.productId.description}
-                  name={item.productId.name}
-                  imageUrl={item.productId.imageUrl}
-                  tier={item.productId.tier}
-                  price={item.subtotal}
+                  key={item.product._id}
+                  _id={item._id}
+                  product={item.product}
+                  subtotal={item.subtotal}
                   quantity={item.quantity}
+                  name={item.product.name}
+                  imageUrl={item.product.imageUrl}
+                  description={item.product.description}
+                  tier={item.product.tier}
                 />
               ))
             )}

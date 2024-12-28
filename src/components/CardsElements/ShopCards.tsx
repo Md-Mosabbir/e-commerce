@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom"
-import { ShopCardTypes } from "../../types/ShopCardTypes"
-import AddingToCart from "./AddingToCart"
-const ShopCards = ({ _id, name, price, imageUrl, alt }: ShopCardTypes) => {
+
+import AddToCart from "./AddToCart"
+import { ShopItemType } from "../../types/ProductType"
+const ShopCards = ({ _id, name, price, imageUrl }: ShopItemType) => {
   return (
     <article
       className="w-full h-full flex flex-col justify-between gap-4"
@@ -12,7 +13,7 @@ const ShopCards = ({ _id, name, price, imageUrl, alt }: ShopCardTypes) => {
           <h3 className="font-montzerrat text-base font-semibold">{name}</h3>
           <img
             src={imageUrl}
-            alt={alt}
+            alt={name}
             className="w-full aspect-square object-center border border-primary"
             loading="lazy"
           />
@@ -20,7 +21,7 @@ const ShopCards = ({ _id, name, price, imageUrl, alt }: ShopCardTypes) => {
       </Link>
       <div className="flex items-center  gap-3 justify-between">
         <p>${price}</p>
-        <AddingToCart id={_id} />
+        <AddToCart id={_id} />
       </div>
     </article>
   )

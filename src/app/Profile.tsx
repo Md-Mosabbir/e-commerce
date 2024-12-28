@@ -4,12 +4,18 @@ import { useAuth } from "../context/AuthContext"
 import axiosInstance from "../utils/axiosInstance"
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
 import { Button } from "../components/ui/button"
-import { Badge, BadgeCheck } from "lucide-react"
+import { BadgeCheck } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import OrderInfo from "../components/OrderInfo"
-import { ScrollArea } from "../components/ui/scroll-area"
+
 import PaginationComponent from "../components/FilteringAndSorting/PaginationComponent"
 import useShopParams from "../hooks/useShopParams"
+import Filter from "../components/FilteringAndSorting/Filter"
+import OrderFilter from "../components/FilteringAndSorting/OrderFilter"
+import ShopCards from "../components/CardsElements/ShopCards"
+import { WishListItemType } from "../types/ProductType"
+import { User } from "../types/User"
+import { OrderItem } from "../types/OrderTypes"
 
 const ProfileSection = () => {
   const { getUser, signOut } = useAuth()
@@ -20,7 +26,7 @@ const ProfileSection = () => {
     retry: 3,
   })
 
-  const data = query.data
+  const data = query.data as User | undefined
 
   if (query.isLoading) {
     return <p>Loading...</p>
@@ -66,16 +72,15 @@ const ProfileSection = () => {
   )
 }
 
-const OrderSection = () => {
+const Orders = () => {
   const paramsArgs = {
-    type: "",
+    types: "",
   }
   const filterArgs = {
-    type: [],
+    types: [],
   }
   const { params, updatedParams, deleteAllFilters, setLimit, filter, page } =
     useShopParams(paramsArgs, filterArgs)
-
   const orders = useQuery({
     queryKey: ["users", "orders", params],
     queryFn: async () => {
@@ -86,9 +91,11 @@ const OrderSection = () => {
 
       return data
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    placeholderData: (previousData, _previousQuery) => previousData,
   })
 
-  console.log("Orders", orders.data)
+  // console.log("Orders", orders.data)
 
   if (orders.isLoading) {
     return <p>Loading...</p>
@@ -98,12 +105,95 @@ const OrderSection = () => {
   const orderItems = orders.data.orders
 
   return (
+    <div>
+      <PaginationComponent
+        currentPage={page}
+        totalPages={ordersData.totalPages}
+        setLimits={setLimit}
+        updateParams={updatedParams}
+      />
+      <Filter
+        deleteAllFilters={deleteAllFilters}
+        children={<OrderFilter updateParams={updatedParams} filter={filter} />}
+      />
+      {orderItems?.length === 0 ? (
+        <div className="flex justify-center items-center h-52">
+          <p className="text-2xl font-medium">No Orders Yet</p>
+        </div>
+      ) : (
+        orderItems?.map((order: OrderItem) => (
+          <OrderInfo
+            key={order._id}
+            _id={order._id}
+            address={order.shippingAddress.address}
+            city={order.shippingAddress.city}
+            postalCode={order.shippingAddress.postalCode}
+            createdAt={order.createdAt}
+            orderStatus={order.orderStatus}
+          />
+        ))
+      )}
+    </div>
+  )
+}
+
+const WishList = () => {
+  const { params, updatedParams, setLimit, page } = useShopParams({}, {})
+
+  const wish = useQuery({
+    queryKey: ["users", "wishlist"],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get("/users/wishlist", {
+        params,
+        withCredentials: true,
+      })
+
+      return data
+    },
+  })
+
+  if (wish.isLoading) {
+    return <p>Loading...</p>
+  }
+
+  const wishData = wish.data
+
+  // console.log("WishList", wishData)
+
+  return (
+    <div>
+      <PaginationComponent
+        currentPage={page}
+        totalPages={wishData.totalPages}
+        setLimits={setLimit}
+        updateParams={updatedParams}
+      />
+      {wishData?.length === 0 ? (
+        <div className="flex justify-center items-center h-52">
+          <p className="text-2xl font-medium">WishList is empty</p>
+        </div>
+      ) : (
+        wishData?.wishlist.map((order: WishListItemType) => (
+          <ShopCards
+            key={order._id}
+            _id={order._id}
+            name={order.name}
+            price={order.price}
+            imageUrl={order.imageUrl}
+          />
+        ))
+      )}
+    </div>
+  )
+}
+
+const InfoSection = () => {
+  return (
     <div className="my-2">
       <Tabs defaultValue="order" className="w-[400px]">
         <TabsList className="w-full">
           <TabsTrigger className="w-1/2 text-base" value="order">
-            Order:{" "}
-            <span className="text-red-400 pl-2"> {orderItems?.length} </span>
+            Orders
           </TabsTrigger>
           <TabsTrigger className="w-1/2 text-base" value="wishlist">
             Whishlist
@@ -112,34 +202,12 @@ const OrderSection = () => {
         <TabsContent value="order">
           {/* <ScrollArea className="p-4 border border-gray-300 rounded-lg"> */}{" "}
           {/* You can adjust the height */}
-          <div>
-            <PaginationComponent
-              currentPage={page}
-              totalPages={ordersData.totalPages}
-              setLimits={setLimit}
-              updateParams={updatedParams}
-            />
-            {orderItems?.length === 0 ? (
-              <div className="flex justify-center items-center h-52">
-                <p className="text-2xl font-medium">No Orders Yet</p>
-              </div>
-            ) : (
-              orderItems?.map((order) => (
-                <OrderInfo
-                  key={order._id}
-                  _id={order._id}
-                  address={order.shippingAddress.address}
-                  city={order.shippingAddress.city}
-                  postalCode={order.shippingAddress.postalCode}
-                  createdAt={order.createdAt}
-                  orderStatus={order.orderStatus}
-                />
-              ))
-            )}
-          </div>
+          <Orders />
           {/* </ScrollArea> */}
         </TabsContent>
-        <TabsContent value="password">Change your password here.</TabsContent>
+        <TabsContent value="wishlist">
+          <WishList />
+        </TabsContent>
       </Tabs>
     </div>
   )
@@ -149,7 +217,7 @@ const Profile = () => {
   return (
     <div className="my-4">
       <ProfileSection />
-      <OrderSection />
+      <InfoSection />
     </div>
   )
 }
