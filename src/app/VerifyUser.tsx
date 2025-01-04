@@ -44,7 +44,7 @@ export default function VerifyUser() {
   const formMutaton = useMutation({
     mutationFn: async (data: z.infer<typeof FormSchema>) => {
       const response = await axiosInstance.post(
-        `/users/verify/${username}`,
+        `/users/${username}/verify/`,
         data,
       )
 

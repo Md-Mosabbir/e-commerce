@@ -26,7 +26,7 @@ const StarRating = ({ id }: { id: string }) => {
       )
     },
     onSuccess: () => {
-      queryClient.invalidateQueries([id, "user-rating"])
+      queryClient.invalidateQueries({ queryKey: [id, "user-rating"] })
     },
     onError: () => {
       toast({
