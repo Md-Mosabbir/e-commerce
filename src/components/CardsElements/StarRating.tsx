@@ -2,15 +2,19 @@ import clsx from "clsx"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import axiosInstance from "../../utils/axiosInstance"
 import { toast } from "../ui/use-toast"
+import { useAuth } from "../../context/AuthContext"
 const StarRating = ({ id }: { id: string }) => {
   const queryClient = useQueryClient()
-
+  const { user } = useAuth()
   const ratingData = useQuery({
     queryKey: [id, "user-rating"],
     queryFn: () =>
       axiosInstance.get(`/shop/${id}/user-rating`, {
         withCredentials: true,
       }),
+    retry: 2,
+
+    enabled: user !== null,
   })
 
   const mutateRating = useMutation({

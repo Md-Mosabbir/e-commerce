@@ -11,15 +11,20 @@ export type Product = {
   inStock: boolean
   updatedAt: string
   numberOfReviews: number
-  reviews: Reviews[]
+  reviews: Review[]
   averageRating: number
 }
 
-export type Reviews = {
+export type Review = {
   _id: string
   name: string
   rating: number
   comment: string
+  user: {
+    _id: string
+    username: string
+    profilePicture: string
+  }
   createdAt: string
 }
 
@@ -38,4 +43,5 @@ export type WishListItemType = Pick<
   "_id" | "name" | "imageUrl" | "price"
 >
 
+export type Comment = Pick<Review, "_id" | "user" | "comment">
 export type ShopItemType = Pick<Product, "_id" | "name" | "price" | "imageUrl">

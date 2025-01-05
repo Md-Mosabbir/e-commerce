@@ -7,9 +7,10 @@ import { useWishlist } from "../../hooks/useWishlist"
 const ShopCards = ({ _id, name, price, imageUrl }: ShopItemType) => {
   const { wishlist, toggleWishlist } = useWishlist()
 
-  const isLiked = wishlist.data.wishlist?.some(
-    (item: { _id: string }) => item._id === _id,
-  )
+  const isLiked =
+    wishlist?.data?.wishlist?.some(
+      (item: { _id: string }) => item._id === _id,
+    ) || false
 
   return (
     <article

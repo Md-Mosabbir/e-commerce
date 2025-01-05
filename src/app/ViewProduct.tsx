@@ -10,6 +10,7 @@ import StarRating from "../components/CardsElements/StarRating"
 import { Product } from "../types/ProductType"
 import Loading from "../components/Loading"
 import { useQuery } from "@tanstack/react-query"
+import { Comments } from "../components/CardsElements/Comments"
 
 const ViewProduct = () => {
   const [quantity, setQuantity] = useState(1)
@@ -119,6 +120,9 @@ const ViewProduct = () => {
           <h2 className="font-bold ">Description: </h2>
           <p className="text-base">{data.description}</p>
         </div>
+      </section>
+      <section>
+        <Comments reviews={data.reviews} id={params.id} />
       </section>
     </div>
   )

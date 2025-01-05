@@ -4,13 +4,17 @@ import {
   fetchWishlist,
   removeFromWishlist,
 } from "../services/wishlistService"
+import { useAuth } from "../context/AuthContext"
 
 export const useWishlist = () => {
   const queryClient = useQueryClient()
 
+  const { user } = useAuth()
+
   const wishlist = useQuery({
     queryKey: ["wishlist"],
     queryFn: fetchWishlist,
+    enabled: user !== null,
   })
 
   const addMutation = useMutation({
