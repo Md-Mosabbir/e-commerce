@@ -21,7 +21,7 @@ const OrderInfo = ({
   return (
     <article className="border rounded-2xl py-4 px-2 font-montzerrat [&>*]:mb-2">
       <div className="flex justify-between gap-4 items-center">
-        <div className="flex items-center gap-2 py-1 px-2 rounded-3xl bg-accent text-background font-medium w-fit ">
+        <div className="flex items-center text-xs sm:text-base md:text-lg gap-2 py-1 px-2 rounded-3xl bg-accent text-background font-medium ">
           <p className="font-medium">ID: </p>
           <span>{_id}</span>
         </div>

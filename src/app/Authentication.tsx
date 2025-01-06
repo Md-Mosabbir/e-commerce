@@ -13,7 +13,10 @@ import SignUp from "../components/Auth/SignUp"
 
 export default function Authentication() {
   return (
-    <Tabs defaultValue="sign-up" className="w-[400px] my-8 font-montzerrat">
+    <Tabs
+      defaultValue="sign-up"
+      className="w-[400px] mx-auto my-8 font-montzerrat"
+    >
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="sign-up">Sign-up</TabsTrigger>
         <TabsTrigger value="sign-in">Sign-in</TabsTrigger>

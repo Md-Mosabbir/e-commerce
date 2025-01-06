@@ -16,6 +16,7 @@ import ShopCards from "../components/CardsElements/ShopCards"
 import { WishListItemType } from "../types/ProductType"
 import { User } from "../types/User"
 import { OrderItem } from "../types/OrderTypes"
+import Loading from "../components/Loading"
 
 const ProfileSection = () => {
   const { getUser, signOut } = useAuth()
@@ -29,25 +30,27 @@ const ProfileSection = () => {
   const data = query.data as User | undefined
 
   if (query.isLoading) {
-    return <p>Loading...</p>
+    return <Loading />
   }
 
   return (
-    <div className="flex justify-between font-montzerrat gap-3 border-b-2 pb-6">
+    <div className="flex my-3 font-montzerrat gap-6 md:gap-20 border-b-2 pb-6">
       <div>
-        <Avatar className="w-36 h-36 rounded-full">
+        <Avatar className="w-28 h-28 rounded-full">
           <AvatarImage
             src={data?.profilePicture}
             alt="Profile Picture"
             className="h-full w-full object-cover"
           />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarFallback>SV</AvatarFallback>
         </Avatar>
       </div>
 
       <div className="mt-3">
         <div className="flex gap-3 items-center">
-          <h1 className="text-2xl font-semibold">{data?.username}</h1>
+          <h1 className="text-base md:text-lg lg:text-2xl font-semibold">
+            {data?.username}
+          </h1>
           {data?.isVerified && (
             <BadgeCheck
               style={{
@@ -56,7 +59,9 @@ const ProfileSection = () => {
             />
           )}
         </div>
-        <p className="text-xl font-medium">{data?.email}</p>
+        <p className=" text-base md:text-lg lg:text-2xl font-medium">
+          {data?.email}
+        </p>
         <div className="mt-2">
           <Button className="mr-3">Edit Profile</Button>
           <Button
@@ -121,17 +126,19 @@ const Orders = () => {
           <p className="text-2xl font-medium">No Orders Yet</p>
         </div>
       ) : (
-        orderItems?.map((order: OrderItem) => (
-          <OrderInfo
-            key={order._id}
-            _id={order._id}
-            address={order.shippingAddress.address}
-            city={order.shippingAddress.city}
-            postalCode={order.shippingAddress.postalCode}
-            createdAt={order.createdAt}
-            orderStatus={order.orderStatus}
-          />
-        ))
+        <div className="my-5">
+          {orderItems?.map((order: OrderItem) => (
+            <OrderInfo
+              key={order._id}
+              _id={order._id}
+              address={order.shippingAddress.address}
+              city={order.shippingAddress.city}
+              postalCode={order.shippingAddress.postalCode}
+              createdAt={order.createdAt}
+              orderStatus={order.orderStatus}
+            />
+          ))}
+        </div>
       )}
     </div>
   )
@@ -173,15 +180,17 @@ const WishList = () => {
           <p className="text-2xl font-medium">WishList is empty</p>
         </div>
       ) : (
-        wishData?.wishlist.map((order: WishListItemType) => (
-          <ShopCards
-            key={order._id}
-            _id={order._id}
-            name={order.name}
-            price={order.price}
-            imageUrl={order.imageUrl}
-          />
-        ))
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-9">
+          {wishData?.wishlist.map((order: WishListItemType) => (
+            <ShopCards
+              key={order._id}
+              _id={order._id}
+              name={order.name}
+              price={order.price}
+              imageUrl={order.imageUrl}
+            />
+          ))}
+        </div>
       )}
     </div>
   )
@@ -190,7 +199,7 @@ const WishList = () => {
 const InfoSection = () => {
   return (
     <div className="my-2">
-      <Tabs defaultValue="order" className="w-[400px]">
+      <Tabs defaultValue="order">
         <TabsList className="w-full">
           <TabsTrigger className="w-1/2 text-base" value="order">
             Orders
@@ -215,10 +224,10 @@ const InfoSection = () => {
 
 const Profile = () => {
   return (
-    <div className="my-4">
+    <>
       <ProfileSection />
       <InfoSection />
-    </div>
+    </>
   )
 }
 

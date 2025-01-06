@@ -1,4 +1,3 @@
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react"
 import {
   Navigation,
@@ -30,20 +29,17 @@ const Slider = () => {
       navigation
       pagination={{ clickable: true }}
       autoplay={{ delay: 3000, disableOnInteraction: false }}
-      className="my-3"
+      className="my-3 rounded-3xl h-96 bg-primary"
     >
-      <SwiperSlide>
-        <img src={dummy1} alt="dummy1" className="w-full rounded-3xl" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={dummy2} alt="dummy2" className="w-full rounded-3xl" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={dummy3} alt="dummy3" className="w-full rounded-3xl" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={dummy4} alt="dummy4" className="w-full rounded-xl" />
-      </SwiperSlide>
+      {[dummy1, dummy2, dummy3, dummy4].map((image, index) => (
+        <SwiperSlide key={index}>
+          <img
+            src={image}
+            alt={`dummy${index + 1}`}
+            className="w-full h-full object-scale-down rounded-3xl" // Adjust the height and make the image responsive
+          />
+        </SwiperSlide>
+      ))}
     </Swiper>
   )
 }
