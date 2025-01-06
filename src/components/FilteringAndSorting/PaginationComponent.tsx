@@ -43,7 +43,7 @@ const PaginationComponent = ({
   return (
     <header className="flex justify-between flex-row-reverse items-center mb-2 border-b-2 border-accent">
       <Select onValueChange={handleChangeLimits}>
-        <SelectTrigger>
+        <SelectTrigger className="md:max-w-80">
           <SelectValue placeholder="10" defaultValue="10" />
         </SelectTrigger>
         <SelectContent className="mb-3 z-50">
@@ -53,7 +53,7 @@ const PaginationComponent = ({
         </SelectContent>
       </Select>
 
-      <Pagination className="my-2">
+      <Pagination className="my-2 justify-start">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious

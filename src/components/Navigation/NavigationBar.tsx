@@ -9,8 +9,8 @@ import Cart from "../Cart"
 
 const NavigationBar = () => {
   return (
-    <header>
-      <Container className="w-full grid grid-cols-3 items-center mx-auto  border-b">
+    <header className="flex justify-center border-b">
+      <Container className="w-full grid grid-cols-3 items-center ">
         <div>
           <SideMenu />
         </div>

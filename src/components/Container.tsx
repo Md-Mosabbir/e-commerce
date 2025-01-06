@@ -6,7 +6,11 @@ type ContainerProps = {
 }
 
 const Container = ({ children, className }: ContainerProps) => {
-  return <div className={cn("px-5", className)}>{children}</div>
+  return (
+    <div className={cn("mx-3 px-5 md:mx-16 lg:mx-32", className)}>
+      {children}
+    </div>
+  )
 }
 
 export default Container
