@@ -104,6 +104,8 @@ const Shop = () => {
               name={product.name}
               price={product.price}
               imageUrl={product.imageUrl}
+              averageRating={product.averageRating}
+              numberOfReviews={product.reviews.length}
             />
           ))}
         </div>

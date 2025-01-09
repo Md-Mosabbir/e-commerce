@@ -24,7 +24,7 @@ const FeaturedBlock = () => {
   })
 
   return (
-    <section className="w-full relative">
+    <section className="w-full relative my-4">
       <div className="w-full border-b text-center font-cinzel text-lg mb-4">
         <h2>Featured Product</h2>
       </div>
@@ -55,6 +55,8 @@ const FeaturedBlock = () => {
                     name={product.name}
                     price={product.price}
                     imageUrl={product.imageUrl}
+                    averageRating={product.averageRating}
+                    numberOfReviews={product.reviews.length}
                   />
                 </CarouselItem>
               ))}

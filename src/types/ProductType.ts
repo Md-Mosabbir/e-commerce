@@ -44,4 +44,7 @@ export type WishListItemType = Pick<
 >
 
 export type Comment = Pick<Review, "_id" | "user" | "comment">
-export type ShopItemType = Pick<Product, "_id" | "name" | "price" | "imageUrl">
+export type ShopItemType = Pick<
+  Product,
+  "_id" | "name" | "price" | "imageUrl" | "numberOfReviews" | "averageRating"
+>

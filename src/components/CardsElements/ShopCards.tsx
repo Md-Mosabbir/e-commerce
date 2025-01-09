@@ -3,8 +3,16 @@ import AddToCart from "./AddToCart"
 import { ShopItemType } from "../../types/ProductType"
 import { Heart } from "lucide-react"
 import { useWishlist } from "../../hooks/useWishlist"
+import Rating from "./Rating"
 
-const ShopCards = ({ _id, name, price, imageUrl }: ShopItemType) => {
+const ShopCards = ({
+  _id,
+  name,
+  price,
+  imageUrl,
+  numberOfReviews,
+  averageRating,
+}: ShopItemType) => {
   const { wishlist, toggleWishlist } = useWishlist()
 
   const isLiked =
@@ -42,9 +50,18 @@ const ShopCards = ({ _id, name, price, imageUrl }: ShopItemType) => {
           </Link>
         </div>
       </div>
-      <div className="flex items-center justify-between gap-3 mt-2">
-        <p className="text-xl font-medium text-gray-800">${price}</p>
-        <AddToCart id={_id} />
+      <div className=" mt-2">
+        <div>
+          <Rating
+            averageRating={averageRating}
+            numberOfReviews={numberOfReviews}
+          />
+        </div>
+
+        <div className="flex justify-between items-center ">
+          <p className="text-xl font-medium text-gray-800">${price}</p>
+          <AddToCart id={_id} />
+        </div>
       </div>
     </article>
   )
