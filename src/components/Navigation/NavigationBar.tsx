@@ -1,4 +1,3 @@
-import Container from "../Container"
 import Logo from "/Logo.svg"
 
 import search from "/search.svg"
@@ -10,7 +9,7 @@ import Cart from "../Cart"
 const NavigationBar = () => {
   return (
     <header className="flex justify-center border-b">
-      <Container className="w-full grid grid-cols-3 items-center ">
+      <div className="w-full grid grid-cols-3 items-center  mx-3 px-5 md:mx-16 lg:mx-32">
         <div>
           <SideMenu />
         </div>
@@ -23,7 +22,7 @@ const NavigationBar = () => {
           <Cart />
           <img src={search} alt="The search" className="w-8 aspect-square" />
         </div>
-      </Container>
+      </div>
     </header>
   )
 }

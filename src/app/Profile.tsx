@@ -103,7 +103,7 @@ const Orders = () => {
   // console.log("Orders", orders.data)
 
   if (orders.isLoading) {
-    return <p>Loading...</p>
+    return <Loading />
   }
 
   const ordersData = orders.data
@@ -160,7 +160,7 @@ const WishList = () => {
   })
 
   if (wish.isLoading) {
-    return <p>Loading...</p>
+    return <Loading />
   }
 
   const wishData = wish.data

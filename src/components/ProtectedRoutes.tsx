@@ -2,6 +2,7 @@ import React from "react"
 import { useAuth } from "../context/AuthContext"
 import { Navigate } from "react-router-dom"
 import { useQuery } from "@tanstack/react-query"
+import Loading from "./Loading"
 
 const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
   const { user, getUser } = useAuth()
@@ -13,7 +14,7 @@ const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
   })
 
   if (query.isLoading) {
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   if (!user) {
