@@ -19,4 +19,13 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  .full-bleed {
+    box-shadow: 0 0 0 100vmax #fef3c7;
+    clip-path: inset(0 -100vmax);
+  }
+  .full-bleed-black {
+    box-shadow: 0 0 0 100vmax #000000;
+    clip-path: inset(0 -100vmax);
+  }
 }
