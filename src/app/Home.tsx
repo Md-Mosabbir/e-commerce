@@ -6,6 +6,7 @@ import DisplayCard from "../components/Home Elements/DisplayCard"
 import dummy1 from "../assets/jpg/dummy1.jpg"
 import dummy2 from "../assets/jpg/dummy2.jpg"
 import dummy3 from "../assets/jpg/dummy3.jpg"
+import { FAQ } from "../components/Home Elements/FAQ"
 
 const cards = [
   {
@@ -43,7 +44,7 @@ const Home = () => {
       <Slider />
 
       <FeaturedBlock />
-      <div className="my-72">
+      <div className="my-48">
         {cards.map((card) => (
           <DisplayCard
             key={card.id}
@@ -55,9 +56,9 @@ const Home = () => {
             cta={card.cta}
           />
         ))}
-        <div className="my-80"></div>
+        <div className="my-48"></div>
       </div>
-      {/* <Footer /> */}
+      <FAQ />
     </>
   )
 }

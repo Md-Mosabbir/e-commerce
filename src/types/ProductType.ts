@@ -38,11 +38,6 @@ export type CartItemType = Pick<
   subtotal?: number
 }
 
-export type WishListItemType = Pick<
-  Product,
-  "_id" | "name" | "imageUrl" | "price"
->
-
 export type Comment = Pick<Review, "_id" | "user" | "comment">
 export type ShopItemType = Pick<
   Product,

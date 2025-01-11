@@ -45,13 +45,13 @@ const columns = 5
 
 const Container = ({ children, className }: ContainerProps) => {
   return (
-    <motion.div className={cn("mx-3 px-5 md:mx-16 lg:mx-32", className)}>
-      <motion.div className="w-screen h-screen fixed top-0 left-0 flex pointer-events-none z-30">
+    <motion.div className={cn("mx-1 px-1 md:mx-16 lg:mx-32", className)}>
+      <motion.div className="w-screen h-screen fixed top-0 left-0  flex pointer-events-none z-30">
         {[...Array(columns)].map((_, i) => (
           <motion.div
             {...anim(expand, columns - i)}
             key={i}
-            className="w-full h-full bg-black  relative"
+            className="w-full h-full bg-black border-black border relative"
             custom={i}
           />
         ))}

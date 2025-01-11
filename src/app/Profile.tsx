@@ -13,7 +13,7 @@ import useShopParams from "../hooks/useShopParams"
 import Filter from "../components/FilteringAndSorting/Filter"
 import OrderFilter from "../components/FilteringAndSorting/OrderFilter"
 import ShopCards from "../components/CardsElements/ShopCards"
-import { WishListItemType } from "../types/ProductType"
+import { ShopItemType } from "../types/ProductType"
 import { User } from "../types/User"
 import { OrderItem } from "../types/OrderTypes"
 import Loading from "../components/Loading"
@@ -181,13 +181,15 @@ const WishList = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-9">
-          {wishData?.wishlist.map((order: WishListItemType) => (
+          {wishData?.wishlist.map((order: ShopItemType) => (
             <ShopCards
               key={order._id}
               _id={order._id}
               name={order.name}
               price={order.price}
               imageUrl={order.imageUrl}
+              averageRating={order.averageRating}
+              numberOfReviews={order.numberOfReviews}
             />
           ))}
         </div>
@@ -224,10 +226,10 @@ const InfoSection = () => {
 
 const Profile = () => {
   return (
-    <>
+    <div>
       <ProfileSection />
       <InfoSection />
-    </>
+    </div>
   )
 }
 
