@@ -5,19 +5,19 @@ export const SocialLinks: React.FC = () => {
     <div className="flex justify-center space-x-4">
       <SocialLink
         href="https://www.instagram.com/luminousred.light"
-        icon={<Instagram size={40} />}
+        icon={<Instagram size={20} />}
       />
       <SocialLink
         href="https://www.linkedin.com/company/luminousred/"
-        icon={<Linkedin size={40} />}
+        icon={<Linkedin size={20} />}
       />
       <SocialLink
         href="https://www.facebook.com/luminousred.light"
-        icon={<Facebook size={40} />}
+        icon={<Facebook size={20} />}
       />
       <SocialLink
         href="https://www.youtube.com/channel/UCiMeGvnq_xRFsNqYj7dd05Q"
-        icon={<Youtube size={40} />}
+        icon={<Youtube size={20} />}
       />
     </div>
   )

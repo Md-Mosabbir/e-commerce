@@ -7,6 +7,8 @@ import dummy1 from "../assets/jpg/dummy1.jpg"
 import dummy2 from "../assets/jpg/dummy2.jpg"
 import dummy3 from "../assets/jpg/dummy3.jpg"
 import { FAQ } from "../components/Home Elements/FAQ"
+import Animated from "../components/Home Elements/Animated"
+import Testimonials from "../components/Home Elements/Testimonials"
 
 const cards = [
   {
@@ -58,6 +60,9 @@ const Home = () => {
         ))}
         <div className="my-48"></div>
       </div>
+      <Animated />
+      <Testimonials />
+
       <FAQ />
     </>
   )

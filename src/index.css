@@ -9,23 +9,20 @@
   color: black;
 }
 
-@layer utilities {
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  /* Hide scrollbar for IE, Edge and Firefox */
-  .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 
-  .full-bleed {
-    box-shadow: 0 0 0 100vmax #fef3c7;
-    clip-path: inset(0 -100vmax);
-  }
-  .full-bleed-black {
-    box-shadow: 0 0 0 100vmax #000000;
-    clip-path: inset(0 -100vmax);
-  }
+.window-mask {
+  mask-image: linear-gradient(black, black), url("/circle.svg");
+  mask-composite: exclude;
+  mask-size: auto 200px auto;
+  mask-repeat: no-repeat;
+  mask-position: center 20%;
+  -webkit-mask-repeat: no-repeat;
 }
