@@ -42,13 +42,13 @@ const PinInfo = () => {
   return (
     <div>
       <div ref={ref} className="relative h-[600vh] mt-[70vh] overflow-clip">
-        <div className="sticky top-0 scroll-text-animation">
+        <div className="sticky top-0 scroll-text-animation flex flex-col ">
           <div>
-            <h3 className="font-bold text-xl pt-2">
+            <h3 className="font-bold text-xl font-cinzel xl:text-2xl leading-9 xl:w-1/2 pt-2 xl:mx-auto">
               {spanText.map((text, index) => (
                 <motion.span
                   key={index}
-                  className={`span-animate leading-5 ${index === activeIndex ? "opacity-100" : "opacity-50"}`}
+                  className={`span-animate  mr-3  ${index === activeIndex ? "opacity-100" : "opacity-50"}`}
                 >
                   {text}
                 </motion.span>
@@ -56,14 +56,14 @@ const PinInfo = () => {
             </h3>
           </div>
 
-          <div className="mx-2 mt-[20vh] bg-fuchsia-600 relative flex justify-center">
+          <div className="mx-2 mt-[10vh]  relative flex justify-center">
             <AnimatePresence>
               {imageSrc.map(
                 (m, index) =>
                   index === activeIndex && (
                     <motion.div
                       key={index}
-                      className="absolute w-[320px] aspect-square rounded-2xl"
+                      className="absolute w-10/12 md:w-3/4 lg:w-2/5 aspect-square rounded-2xl "
                       initial={{ scale: 0.95 }}
                       animate={{ scale: 1 }}
                     >

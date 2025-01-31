@@ -10,64 +10,86 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "./ui/carousel"
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert"
+import { AlertCircle } from "lucide-react"
 
 const FeaturedBlock = () => {
-  const queryKey = ["products"]
-
-  const query = useQuery({
-    queryKey,
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["featured-products"],
     queryFn: async () => {
       const response = await axiosInstance.get("/shop/featured")
-      return response
+      return response.data as Product[]
     },
-    retry: 5,
+    retry: 3,
   })
 
+  const renderCarouselItems = () => {
+    if (isLoading) {
+      return Array.from({ length: 3 }).map((_, index) => (
+        <CarouselItem
+          key={`skeleton-${index}`}
+          className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
+        >
+          <SkeletonCard />
+        </CarouselItem>
+      ))
+    }
+
+    if (error) {
+      return (
+        <CarouselItem className="pl-2 md:pl-4 col-span-full">
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>
+              Failed to load featured products.
+            </AlertDescription>
+          </Alert>
+        </CarouselItem>
+      )
+    }
+
+    return data?.map((product) => (
+      <CarouselItem
+        key={product._id}
+        className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
+      >
+        <ShopCards
+          _id={product._id}
+          name={product.name}
+          price={product.price}
+          imageUrl={product.imageUrl}
+          averageRating={product.averageRating}
+          numberOfReviews={product.reviews.length}
+        />
+      </CarouselItem>
+    ))
+  }
+
   return (
-    <section className="w-full relative my-4">
-      <div className="w-full border-b text-center font-cinzel text-lg mb-4">
-        <h2>Featured Product</h2>
-      </div>
-      <Carousel className="w-full ">
+    <section className="w-full relative my-8">
+      <h2 className="text-center font-cinzel text-2xl mb-6 pb-2 border-b">
+        Featured Products
+      </h2>
+      <Carousel className="w-full">
         <CarouselContent className="-ml-2 md:-ml-4">
-          {query.isLoading
-            ? Array.from({ length: 3 }).map((_, index) => (
-                <CarouselItem
-                  key={index}
-                  className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
-                >
-                  <article className="flex flex-col space-y-3">
-                    <Skeleton className="h-[125px] rounded-xl" />
-                    <div className="space-y-2">
-                      <Skeleton className="h-4" />
-                      <Skeleton className="h-4 w-1/2" />
-                    </div>
-                  </article>
-                </CarouselItem>
-              ))
-            : query.data?.data.map((product: Product) => (
-                <CarouselItem
-                  key={product._id}
-                  className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
-                >
-                  <ShopCards
-                    _id={product._id}
-                    name={product.name}
-                    price={product.price}
-                    imageUrl={product.imageUrl}
-                    averageRating={product.averageRating}
-                    numberOfReviews={product.reviews.length}
-                  />
-                </CarouselItem>
-              ))}
+          {renderCarouselItems()}
         </CarouselContent>
-        <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-between pointer-events-none">
-          <CarouselPrevious className="relative  top-0 left-2 pointer-events-auto" />
-          <CarouselNext className="relative top-0 right-2 pointer-events-auto" />
-        </div>
+        <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
+        <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
       </Carousel>
     </section>
   )
 }
+
+const SkeletonCard = () => (
+  <article className="flex flex-col space-y-3">
+    <Skeleton className="h-[125px] rounded-xl" />
+    <div className="space-y-2">
+      <Skeleton className="h-4" />
+      <Skeleton className="h-4 w-1/2" />
+    </div>
+  </article>
+)
 
 export default FeaturedBlock

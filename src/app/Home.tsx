@@ -9,6 +9,7 @@ import dummy3 from "../assets/jpg/dummy3.jpg"
 import { FAQ } from "../components/Home Elements/FAQ"
 import Animated from "../components/Home Elements/Animated"
 import Testimonials from "../components/Home Elements/Testimonials"
+import SvgInfo from "../components/Home Elements/SvgInfo"
 
 const cards = [
   {
@@ -62,6 +63,7 @@ const Home = () => {
       </div>
       <Animated />
       <Testimonials />
+      <SvgInfo />
 
       <FAQ />
     </>

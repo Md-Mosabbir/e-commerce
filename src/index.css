@@ -4,6 +4,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .clip-inset-expand {
+    clip-path: inset(0 -100vmax);
+  }
+
+  .bleed-testimonial {
+    box-shadow: 0 0 0 100vmax #1f2937;
+  }
+
+  .bleed-svg {
+    box-shadow: 0 0 0 100vmax #111827;
+  }
+}
+
 .swiper-button-next,
 .swiper-button-prev {
   color: black;
