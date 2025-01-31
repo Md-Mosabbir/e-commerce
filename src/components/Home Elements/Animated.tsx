@@ -21,8 +21,8 @@ const Animated = () => {
     [0, 0.5, 1],
     ["110%", "50%", "-10%"],
   )
-  const sunScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.5, 1, 0.8])
-  const skyHue = useTransform(scrollYProgress, [0, 0.5, 1], [80, 35, 10])
+  const sunScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.5, 1.4, 2])
+  const skyHue = useTransform(scrollYProgress, [0, 0.5, 1], [80, 35, 40])
   const skySaturation = useTransform(
     scrollYProgress,
     [0, 0.5, 1],
