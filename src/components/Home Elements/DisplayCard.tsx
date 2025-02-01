@@ -1,3 +1,4 @@
+import { motion } from "motion/react"
 import { Button } from "../ui/button"
 
 const DisplayCard = ({
@@ -16,7 +17,13 @@ const DisplayCard = ({
   cta: string
 }) => {
   return (
-    <div className="w-full my-3 flex items-start justify-center sticky top-4">
+    <motion.div
+      className="w-full my-3 flex items-start justify-center sticky top-4 "
+      initial={{ opacity: 0, y: 40 }} // Starts faded and slightly below
+      whileInView={{ opacity: 1, y: 0 }} // Becomes fully visible and moves up
+      transition={{ duration: 0.6, ease: "easeOut" }} // Smooth animation
+      viewport={{ once: true, amount: 0.2 }}
+    >
       <article
         id={id}
         className="mx-auto bg-gradient-to-br from-amber-50 to-amber-100 rounded-3xl w-full max-w-6xl overflow-hidden shadow-lg transition-all hover:shadow-xl"
@@ -49,7 +56,7 @@ const DisplayCard = ({
           </div>
         </div>
       </article>
-    </div>
+    </motion.div>
   )
 }
 

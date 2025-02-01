@@ -44,7 +44,7 @@ const PinInfo = () => {
       <div ref={ref} className="relative h-[600vh] mt-[70vh] overflow-clip">
         <div className="sticky top-0 scroll-text-animation flex flex-col ">
           <div>
-            <h3 className="font-bold text-xl font-cinzel xl:text-2xl leading-9 xl:w-1/2 pt-2 xl:mx-auto">
+            <h3 className="font-extrabold text-xl font-cinzel xl:text-2xl leading-9 xl:w-1/2 pt-2 xl:mx-auto">
               {spanText.map((text, index) => (
                 <motion.span
                   key={index}

@@ -44,12 +44,12 @@ const ViewProduct = () => {
       <section>
         <div>
           <h1 className="text-2xl  font-bold">{data.name}</h1>
-          <div>
-            <div className="flex justify-center">
+          <div className="mt-4 md:w-1/2 lg:w-2/5">
+            <div className="relative aspect-square w-full overflow-hidden rounded-lg">
               <img
                 src={data.imageUrl}
                 alt={data.name}
-                className="w-full  object-cover rounded-lg"
+                className="absolute inset-0 h-full w-full object-cover"
               />
             </div>
           </div>

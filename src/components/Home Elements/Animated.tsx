@@ -101,11 +101,11 @@ const Animated = () => {
         }}
         className="h-[100vh] origin-[center_20%] sticky top-0 window-mask  bg-white z-10 "
       >
-        <div>
+        <motion.div className="h-full w-full flex flex-col gap-60">
           <h2 className="text-3xl text-center font-bold pt-20 ">
             Discover Our Craftsmanship
           </h2>
-        </div>
+        </motion.div>
       </motion.div>
     </motion.section>
   )

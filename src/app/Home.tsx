@@ -10,6 +10,7 @@ import { FAQ } from "../components/Home Elements/FAQ"
 import Animated from "../components/Home Elements/Animated"
 import Testimonials from "../components/Home Elements/Testimonials"
 import SvgInfo from "../components/Home Elements/SvgInfo"
+import { motion } from "motion/react"
 
 const cards = [
   {
@@ -47,7 +48,7 @@ const Home = () => {
       <Slider />
 
       <FeaturedBlock />
-      <div className="my-48">
+      <motion.div className="my-48">
         {cards.map((card) => (
           <DisplayCard
             key={card.id}
@@ -60,7 +61,7 @@ const Home = () => {
           />
         ))}
         <div className="my-48"></div>
-      </div>
+      </motion.div>
       <Animated />
       <Testimonials />
       <SvgInfo />

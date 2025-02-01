@@ -14,6 +14,7 @@ import { useAuth } from "./context/AuthContext"
 import Checkout from "./app/Checkout"
 import ViewOrder from "./app/ViewOrder"
 import { AnimatePresence } from "motion/react"
+import AboutUs from "./app/AboutUs"
 
 export default function App() {
   const { getUser } = useAuth()
@@ -36,6 +37,7 @@ export default function App() {
             <Route index element={<Home />} />
             <Route path="auth" element={<Authentication />} />
             <Route path="shop" element={<Shop />} />
+            <Route path="about" element={<AboutUs />} />
             <Route path="shop/:id" element={<ViewProduct />} />
 
             <Route path="/:username/verify" element={<VerifyUser />} />
