@@ -13,7 +13,7 @@ const Animated = () => {
     offset: ["start start", "end end"],
   })
 
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 28])
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 50])
   const x = useTransform(scrollYProgress, [0, 0.3], [-150, 0])
   // Sun animation values
   const sunY = useTransform(

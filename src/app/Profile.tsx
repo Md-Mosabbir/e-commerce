@@ -17,6 +17,7 @@ import { ShopItemType } from "../types/ProductType"
 import { User } from "../types/User"
 import { OrderItem } from "../types/OrderTypes"
 import Loading from "../components/Loading"
+import { Link } from "react-router-dom"
 
 const ProfileSection = () => {
   const { getUser, signOut } = useAuth()
@@ -63,7 +64,9 @@ const ProfileSection = () => {
           {data?.email}
         </p>
         <div className="mt-2">
-          <Button className="mr-3">Edit Profile</Button>
+          <Link to={`/${data?.username}/edit`}>
+            <Button className="mr-3">Edit Profile</Button>
+          </Link>
           <Button
             onClick={() => {
               signOut()
